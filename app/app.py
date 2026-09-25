@@ -2,8 +2,12 @@ import streamlit as st
 import joblib
 
 # Load trained model and vectorizer
-model = joblib.load("../model/customer_query_svm.pkl")
-vectorizer = joblib.load("../model/tfidf_vectorizer.pkl")
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+model = joblib.load(BASE_DIR / "model" / "customer_query_svm.pkl")
+vectorizer = joblib.load(BASE_DIR / "model" / "tfidf_vectorizer.pkl")
 
 # Page configuration
 st.set_page_config(

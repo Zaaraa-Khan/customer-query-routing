@@ -1,11 +1,11 @@
+from pathlib import Path
 import streamlit as st
 import joblib
 
-# Load trained model and vectorizer
-from pathlib import Path
-
+# Get the main project folder
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load the trained model and TF-IDF vectorizer
 model = joblib.load(BASE_DIR / "model" / "customer_query_svm.pkl")
 vectorizer = joblib.load(BASE_DIR / "model" / "tfidf_vectorizer.pkl")
 
@@ -30,20 +30,14 @@ query = st.text_area(
     placeholder="Example: My card has not arrived yet..."
 )
 
-# Prediction button
+# Prediction
 if st.button("Route Query"):
-
     if query.strip() == "":
         st.warning("Please enter a customer query.")
-
     else:
-        # Convert text into TF-IDF features
         query_tfidf = vectorizer.transform([query])
-
-        # Predict category
         prediction = model.predict(query_tfidf)[0]
 
-        # Display result
         st.success("Query routed successfully!")
 
         st.subheader("Predicted Category")
